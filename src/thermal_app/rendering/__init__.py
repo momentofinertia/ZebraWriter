@@ -1,0 +1,1 @@
+"""Pillow-based rendering implementation."""

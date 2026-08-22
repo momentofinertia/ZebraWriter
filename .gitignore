@@ -1,0 +1,27 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.pytest-tmp*/
+.coverage
+htmlcov/
+.venv/
+build/
+dist/
+output/
+release/
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.sqlite
+*.sqlite3
+*.db
+.idea/
+.vscode/
+.DS_Store
+# Local planning material
+/PROMPT.md

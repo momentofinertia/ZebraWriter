@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows-release:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      QT_QPA_PLATFORM: offscreen
+      PYTHONDONTWRITEBYTECODE: "1"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Scan tracked files for secrets
+        run: python scripts/check_secrets.py
+
+      - name: Install build dependencies
+        shell: pwsh
+        run: |
+          python -m venv .venv
+          .\.venv\Scripts\python.exe -m pip install --upgrade pip
+          .\.venv\Scripts\python.exe -m pip install -e ".[test,release]"
+
+      - name: Verify tag and package version
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        run: |
+          $version = .\.venv\Scripts\python.exe -c "from thermal_app import __version__; print(__version__)"
+          if ("v$version" -ne "${{ github.ref_name }}") {
+            throw "Tag ${{ github.ref_name }} does not match package version v$version"
+          }
+
+      - name: Build and verify Windows package
+        shell: pwsh
+        run: ./scripts/build_release.ps1
+
+      - name: Publish GitHub prerelease
+        if: github.ref_type == 'tag'
+        shell: pwsh
+        run: |
+          $version = .\.venv\Scripts\python.exe -c "from thermal_app import __version__; print(__version__)"
+          $archive = "release/ZebraWriter-$version-windows-x64-onedir.zip"
+          $tag = "${{ github.ref_name }}"
+          $notes = "Windows x64 onedir release candidate. The source code is licensed under GPL-3.0-only. The package is not code-signed and does not include an installation wizard."
+          if (gh release view $tag 2>$null) {
+            gh release upload $tag $archive "release/SHA256SUMS.txt" --clobber
+            gh release edit $tag --prerelease --title "ZebraWriter $version" --notes $notes
+          }
+          else {
+            gh release create $tag `
+              $archive `
+              "release/SHA256SUMS.txt" `
+              --prerelease `
+              --verify-tag `
+              --title "ZebraWriter $version" `
+              --notes $notes
+          }
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZebraWriter-windows-x64-onedir
+          path: |
+            release/*.zip
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
