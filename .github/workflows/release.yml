@@ -58,13 +58,13 @@ jobs:
           $notes = "Windows x64 onedir release. The source code is licensed under GPL-3.0-only. The package is not code-signed and does not include an installation wizard. Clean-machine and hardware validation remain recommended."
           if (gh release view $tag 2>$null) {
             gh release upload $tag $archive "release/SHA256SUMS.txt" --clobber
-            gh release edit $tag --prerelease --title "ZebraWriter $version" --notes $notes
+            gh release edit $tag --prerelease=false --latest --title "ZebraWriter $version" --notes $notes
           }
           else {
             gh release create $tag `
               $archive `
               "release/SHA256SUMS.txt" `
-              --prerelease `
+              --latest `
               --verify-tag `
               --title "ZebraWriter $version" `
               --notes $notes
