@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zebrawriter"
-version = "0.5.0rc16"
+version = "0.5.0"
 description = "Zebra GC420t odaklı yerel termal baskı uygulaması"
 readme = "README.md"
 requires-python = ">=3.12"

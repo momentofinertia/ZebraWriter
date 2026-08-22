@@ -2,7 +2,7 @@
 
 ZebraWriter is a local Windows 10/11 desktop application for Zebra GC420t thermal printers, ZPL, 203 DPI output, and the Windows RAW print spooler.
 
-Version `0.5.0rc16` includes GC420t discovery and calibration, PDF/EPUB/DOCX text import, a block-based custom template designer, filtered history and artifact cleanup, ten ready-made examples in the Dashboard, a resizable live-preview editor, plain and graphic thermal styles, ZPL `^GFA` encoding, Windows RAW submission, print history, user presets, light/dark themes, Turkish and English interface options, and a Todoist API v1 integration backed by the operating system keyring.
+Version `0.5.0` includes GC420t discovery and calibration, PDF/EPUB/DOCX text import, a block-based custom template designer, filtered history and artifact cleanup, ten ready-made examples in the Dashboard, a resizable live-preview editor, plain and graphic thermal styles, ZPL `^GFA` encoding, Windows RAW submission, print history, user presets, light/dark themes, Turkish and English interface options, and a Todoist API v1 integration backed by the operating system keyring.
 
 ZebraWriter is an independent community project. It is not affiliated with, endorsed by, or sponsored by Zebra Technologies. Zebra and related product names are trademarks of their respective owners.
 
@@ -63,7 +63,7 @@ The script runs the test suite, builds `dist\<version>\ZebraWriter\ZebraWriter.e
 
 Version-specific staging prevents DLL locks from an older running copy from affecting a new build. User data is stored under `%LOCALAPPDATA%\ZebraWriter`, outside the packaged application directory.
 
-The current release candidate is not code-signed and does not include an installer. Clean-machine acceptance on a separate Windows 10/11 computer without Python remains a release requirement.
+The Windows package is not code-signed and does not include an installer. Clean-machine acceptance on a separate Windows 10/11 computer without Python remains a release validation requirement.
 
 ## Security and privacy
 

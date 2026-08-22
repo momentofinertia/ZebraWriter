@@ -55,7 +55,7 @@ jobs:
           $version = .\.venv\Scripts\python.exe -c "from thermal_app import __version__; print(__version__)"
           $archive = "release/ZebraWriter-$version-windows-x64-onedir.zip"
           $tag = "${{ github.ref_name }}"
-          $notes = "Windows x64 onedir release candidate. The source code is licensed under GPL-3.0-only. The package is not code-signed and does not include an installation wizard."
+          $notes = "Windows x64 onedir release. The source code is licensed under GPL-3.0-only. The package is not code-signed and does not include an installation wizard. Clean-machine and hardware validation remain recommended."
           if (gh release view $tag 2>$null) {
             gh release upload $tag $archive "release/SHA256SUMS.txt" --clobber
             gh release edit $tag --prerelease --title "ZebraWriter $version" --notes $notes
